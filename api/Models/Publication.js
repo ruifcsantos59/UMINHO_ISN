@@ -1,12 +1,20 @@
 const mongoose = require('mongoose');
 
 var publicationSchema = new mongoose.Schema({
-    author: { type: String, required: true },
+    author: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
     dateOfCreation: { type: String, required: true},
     content: { type: String, required: true},
     tags: [String], 
     files: [String],
-    groupID: {type: String, required: false}
+    groupID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Group"
+    },
+    likes: Number
 });
 
-module.exports = mongoose.model('publications', publicationSchema)
+module.exports = mongoose.model('Publication', publicationSchema)

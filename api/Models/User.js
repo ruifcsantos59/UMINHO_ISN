@@ -10,12 +10,10 @@ var messageSchema = new mongoose.Schema({
 
 var friendSchema = new mongoose.Schema({
     user: String,
-    photo: String
 });
 
 var friendRequestSchema = new mongoose.Schema({
     user: String,
-    photo: String
 });
 
 var userSchema = new mongoose.Schema({
@@ -27,10 +25,17 @@ var userSchema = new mongoose.Schema({
     gender: { type: String, required: true}, 
     password: { type: String, required: true },
     photo: {type: String, required: false},
+    description: {type: String, required: false},
     last_access: String,
-    friends_request: [friendRequestSchema], //assim ou então um array de string apenas com o nome e depois com uma chamada à API sabemos a foto
-    friends: [friendSchema], //assim ou então um array de string apenas com o nome e depois com uma chamada à API sabemos a foto
-    messages: [messageSchema]
+    friends_request: [friendRequestSchema], //assim ou então com a referência para o Object ID
+    friends: [friendSchema], //assim ou então com a referência para o Object ID
+    messages: [messageSchema],
+    posts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Publication"
+        }
+    ]
   });
 
-module.exports = mongoose.model('users', userSchema)
+module.exports = mongoose.model('User', userSchema)
