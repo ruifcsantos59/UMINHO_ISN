@@ -2,11 +2,13 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 
-//CONEXÃO À BASE DE DADOS MONGO
-/*mongoose.connect('mongodb://127.0.0.1:27017/daw2019-agenda', {useNewUrlParser: true, useUnifiedTopology: true})
-  .then(()=> console.log('Servidor Mongo da API da agenda a correr...'))
-  .catch((erro)=> console.log('Mongo: erro na conexão: ' + erro))*/
 
+//CONEXÃO À BASE DE DADOS MONGO
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/uminho_isn', {useNewUrlParser: true, useUnifiedTopology: true})
+  .then(()=> console.log('Servidor Mongo da API da agenda a correr...'))
+  .catch((erro)=> console.log('Mongo: erro na conexão: ' + erro))
+  
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -53,8 +55,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/', indexRouter);
+app.use('/api/user', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

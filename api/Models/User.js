@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 var messageSchema = new mongoose.Schema({
-    user: { type: String, required: true},
+    recipient: { type: String, required: true},
     messages : [{
         user: String,
         message: String
@@ -12,22 +12,22 @@ var friendSchema = new mongoose.Schema({
     user: String,
 });
 
-var friendRequestSchema = new mongoose.Schema({
+var friendRequestsSchema = new mongoose.Schema({
     user: String,
 });
 
 var userSchema = new mongoose.Schema({
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     phone : { type: String, required: true },
     email: { type: String, required: true },
-    date_of_birht: { type: String, required: true},
+    dateOfBirht: { type: String, required: true},
     gender: { type: String, required: true}, 
     password: { type: String, required: true },
     photo: {type: String, required: false},
     description: {type: String, required: false},
-    last_access: String,
-    friends_request: [friendRequestSchema], //assim ou então com a referência para o Object ID
+    lastAccess: String,
+    friendRequests: [friendRequestsSchema], //assim ou então com a referência para o Object ID
     friends: [friendSchema], //assim ou então com a referência para o Object ID
     messages: [messageSchema],
     posts: [
@@ -36,6 +36,6 @@ var userSchema = new mongoose.Schema({
             ref: "Publication"
         }
     ]
-  });
+});
 
 module.exports = mongoose.model('User', userSchema)
