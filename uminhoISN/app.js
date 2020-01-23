@@ -25,9 +25,10 @@ passport.use(new LocalStrategy(
         expiresIn: 3000, 
         issuer: "Servidor uminhoISN"
     })
-  axios.get('http://localhost:3001/api/user/' + email + '?token=' + token)
+  axios.get('http://localhost:3001/api/user/' + email + '?token=' + token + '&login=yes')
     .then(dados => {
       const user = dados.data
+      user["token"] = token;
       if(!user) { 
         return done(null, false, {message: 'Utilizador inexistente!\n'})
       }
@@ -43,7 +44,7 @@ passport.use(new LocalStrategy(
 passport.serializeUser((user,done) => {
   console.log('Vou serializar o user: ' + JSON.stringify(user))
   // Serialização do utilizador. O passport grava o utilizador na sessão aqui.
-  done(null, user.email)
+  done(null, user);
 })
   
 // Desserialização: a partir do id obtem-se a informação do utilizador
@@ -53,9 +54,12 @@ passport.deserializeUser((email, done) => {
         expiresIn: 3000, 
         issuer: "Servidor uminhoISN"
   })
-  console.log('Vou desserializar o utilizador: ' + email)
-  axios.get('http://localhost:3001/api/user/' + email + '?token=' + token)
-    .then(dados => done(null, dados.data))
+  console.log('Vou desserializar o utilizador: ' + email.email)
+  axios.get('http://localhost:3001/api/user/' + email.email + '?token=' + token)
+    .then(dados => {
+      dados.data["token"] = token;
+      done(null, dados.data)
+    })
     .catch(erro => done(erro, false))
 })
 
@@ -74,7 +78,7 @@ app.use(session({
     return uuid()
   },
   store: new FileStore(),
-  secret: 'pri2019',
+  secret: 'dweb2019',
   resave: false,
   saveUninitialized: true
 }))

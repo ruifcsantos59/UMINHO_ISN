@@ -9,3 +9,8 @@ module.exports.user = (email) => {
     return User.findOne({email: email}).exec();
 }
 
+module.exports.userLogin = (email) => {
+    return User.findOne({email: email}, {email: 1, password: 1}).exec();
+}
+
+

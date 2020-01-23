@@ -10,17 +10,26 @@ router.get('/', function(req, res) {
     res.render('index');
 });
 
-router.get('/feed', function(req, res){
-  res.render('feed');
+router.get('/feed', verificaAutenticacao, function(req, res){
+  axios.get(apiUser + '/my-profile/' + req.session.passport.user.email + '?token=' + req.session.passport.user.token)
+    .then(dados => res.render('feed', {dados: dados.data}))
+    .catch(e => console.log(e));
+});
+
+router.get('/signout', verificaAutenticacao, (req,res) => {
+  req.logout()
+  res.redirect('/')
+});
+
+router.get('/my-profile', verificaAutenticacao, (req, res) => {
+  res.render('my-profile')
 })
 
 
 /* POST Sign In */
 router.post('/signin', passport.authenticate('local', {
     successRedirect: '/feed',
-    successFlash: 'Utilizador autenticado com sucesso!',
     failureRedirect: '/',
-    failureFlash: 'Utilizador ou password inválido(s)...'
   })
 )
 
