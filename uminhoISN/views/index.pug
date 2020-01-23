@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  h1 UMinho - ISN
+  p Bem vindo à UMinho - ISN
+  .container
+    .container
+      form(action="/signin" method="POST")
+        div.form-group
+          label Email
+          input(type="email" class="form-control" name="email" placeholder="Email")
+        div.form-group
+          label Password
+          input(type="password" class="form-control" name="password" placeholder="Password")
+        button(type="submit" class="btn btn-primary") Entrar
+    br
+    br
+    br
+    .container
+      form(action="/signup" method="POST")
+        .row
+          .col
+            div.form-group
+              input(type="text" class="form-control" name="firstName" placeholder="Nome Próprio")
+          .col
+            div.form-group
+              input(type="text" class="form-control" name="lastName" placeholder="Ultimo Nome")
+        div.form-group
+          input(type="text" class="form-control" name="phone" placeholder="Numero de Telemovel")
+        div.form-group
+          input(type="email" class="form-control" name="email" placeholder="Endereço de Email")
+        div.form-group
+          input(type="password" class="form-control" name="password" placeholder="Palavra Passe")
+        div.form-group
+          input(type="text" class="form-control" name="dateOfBirth" placeholder="Data de Nascimento")
+        //.row
+          .col
+            div.form-group
+              input(type="text" class="form-control" name="day" placeholder="Dia")
+          .col
+            div.form-group
+              input(type="text" class="form-control" name="month" placeholder="Mês")
+          .col
+            div.form-group
+              input(type="text" class="form-control" name="year" placeholder="Ano")
+        div.form-group
+          div(class="form-check form-check-inline")
+            input(type="radio" class="form-check-input" name="gender" value="Feminino")
+            label(class="form-check-label" for="inlineRadio1") Feminino
+          div(class="form-check form-check-inline")
+            input(type="radio" class="form-check-input" name="gender" value="Masculino")
+            label(class="form-check-label" for="inlineRadio1") Masculino
+        button(type="submit" class="btn btn-primary") Registar  
