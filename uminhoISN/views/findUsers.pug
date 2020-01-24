@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h3 Pessoas Encontradas
+    if dados <= 0
+        p Não foram encontrados utilizadores
+    else
+        each u in dados
+            p Nome: #{u.firstName} #{u.lastName}
+            p Email: #{u.email}
+    
+    

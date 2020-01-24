@@ -21,8 +21,43 @@ router.get('/signout', verificaAutenticacao, (req,res) => {
   res.redirect('/')
 });
 
-router.get('/my-profile', verificaAutenticacao, (req, res) => {
-  res.render('my-profile')
+router.get('/myProfile', verificaAutenticacao, (req, res) => {
+  axios.get(apiUser + '/my-profile/' + req.session.passport.user.email + '?token=' + req.session.passport.user.token)
+    .then(dados => {
+      console.log(dados.data);
+      res.render('myProfile', {dados: dados.data})
+    })
+    .catch(e => console.log(e));
+})
+
+router.get('/editProfile', verificaAutenticacao, (req, res) => {
+  axios.get(apiUser + '/my-profile/' + req.session.passport.user.email + '?token=' + req.session.passport.user.token)
+    .then(dados => {
+      res.render('editProfile', {dados: dados.data})
+    })
+    .catch(e => console.log(e));
+});
+
+router.post('/editProfile', verificaAutenticacao, (req, res) => {
+  axios.post(apiUser + '/editProfile/' + req.session.passport.user.email + '?token=' + req.session.passport.user.token, {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    phone: req.body.phone,
+    dateOfBirth: req.body.dateOfBirth,
+    gender: req.body.gender,
+    description: req.body.description
+  })
+  .then(dados => res.render('myProfile', {dados: dados.data}))
+  .catch(e => console.log(e));
+})
+
+router.post('/findUsers', verificaAutenticacao, (req, res) => {
+  axios.get(apiUser + '/?name=' + req.body.name + '&token=' + req.session.passport.user.token)
+    .then(dados => {
+      console.log(dados.data);
+      res.render('findUsers', {dados: dados.data});
+    })
+    .catch(e => console.log(e));
 })
 
 /* POST Sign In */
@@ -47,7 +82,7 @@ router.post('/signup', (req, res) => {
     gender: req.body.gender,
     password: hash
   })
-    .then(data => res.render('signupsuccess'))
+    .then(data => res.render('signupSuccess'))
     .catch(e => res.render('error', {error: e}));
 })
 

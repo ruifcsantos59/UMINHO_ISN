@@ -5,7 +5,7 @@ var path = require('path');
 
 //CONEXÃO À BASE DE DADOS MONGO
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/uminho_isn', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb://127.0.0.1:27017/uminho_isn', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
   .then(()=> console.log('Servidor Mongo da API da agenda a correr...'))
   .catch((erro)=> console.log('Mongo: erro na conexão: ' + erro))
   

@@ -1,0 +1,37 @@
+extends layout
+
+
+block content
+    .container
+        form(action="/editProfile" method="POST")
+            .row
+                .col
+                    div.form-group
+                        input(type="text" class="form-control" name="firstName" placeholder="Nome Próprio" value=dados.firstName)
+                .col
+                    div.form-group
+                        input(type="text" class="form-control" name="lastName" placeholder="Ultimo Nome" value=dados.lastName)
+            div.form-group
+                input(type="text" class="form-control" name="phone" placeholder="Numero de Telemovel" value=dados.phone)
+            div.form-group
+                input(type="email" class="form-control" name="email" placeholder="Endereço de Email" value=dados.email disabled)
+            div.form-group
+                input(type="text" class="form-control" name="dateOfBirth" placeholder="Data de Nascimento" value=dados.dateOfBirth)
+            div.form-group
+                div(class="form-check form-check-inline")
+                    input(type="radio" class="form-check-input" name="gender" value="Feminino")
+                    label(class="form-check-label" for="inlineRadio1") Feminino
+                div(class="form-check form-check-inline")
+                    input(type="radio" class="form-check-input" name="gender" value="Masculino" checked)
+                    label(class="form-check-label" for="inlineRadio1") Masculino
+            div.form-group
+                if dados.description
+                    input(type="text" class="form-control" name="description" placeholder="Descrição" value=dados.description)
+                else
+                   input(type="text" class="form-control" name="description" placeholder="Descrição")
+            //div.form-gorup
+                label Foto de perfil
+                input(type="file" class="form-control-file" name="photo")
+            br   
+            button(type="submit" class="btn btn-primary") Editar
+    

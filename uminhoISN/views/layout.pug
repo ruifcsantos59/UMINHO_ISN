@@ -7,12 +7,16 @@ html
   body
     nav.navbar.navbar-dark.bg-primary
         a.navbar-brand(href='/feed') UMINHO-ISN
-        form.form-inline.my-2.my-lg-0
-            input.form-control.mr-sm-2(type='search', placeholder='Search', aria-label='Search')
+        form.form-inline.my-2.my-lg-0(action="/findUsers" method="POST")
+            input.form-control.mr-sm-2(type='search', placeholder='Search', aria-label='Search' name="name")
             button.btn.btn-light.my-2.my-sm-0(type='submit') Pesquisar
     ul
         li
-            a(href="/signout") Logout
+          a(href="/signout") Logout
         li
-            a(href="/my-profile") Meu Perfil
+          a(href="/myProfile") Meu Perfil
+        li
+          a(href="/myMessages") Minhas Mensagens
+        li
+          a(href="/friendRequests") Pedidos de Amizade
     block content

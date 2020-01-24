@@ -1,0 +1,22 @@
+extends layout
+
+
+block content
+  p Nome: #{dados.firstName} #{dados.lastName}
+  p Numero de Telemovel: #{dados.phone}
+  p Email: #{dados.email}
+  p Data de Nascimento: #{dados.dateOfBirth}
+  p Género: #{dados.gender}
+  if dados.description
+    p Descrição: #{dados.description}
+  a(href="/editProfile") Editar perfil
+  br
+  br
+  if dados.posts <= 0
+    p Ainda não existem publicações
+  else
+    p Apresenta publicações
+  if dados.friends <= 0
+    p Ainda não tem amigos adicionados
+  else
+    p Apresenta Amigos

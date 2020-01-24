@@ -15,10 +15,34 @@ router.get('/my-profile/:email', passport.authenticate('jwt', {session: false}),
 router.get('/:email', passport.authenticate('jwt', { session: false }), function (req, res) {
     User.userLogin(req.params.email)
         .then(user => {
-            console.log(user);
             res.jsonp(user)
         })
         .catch(e => res.status(500).jsonp(e)); 
+});
+
+/* GET Find Users per Name */
+router.get('/', passport.authenticate('jwt', {session: false}), function(req,res){
+    if(req.query.name) {
+        User.findUsers(req.query.name)
+            .then(users => {
+                console.log(users);
+                res.jsonp(users);
+            })
+            .catch(e => res.status(500).jsonp(e));
+    }else {
+        res.jsonp({"message": "Não foram encontrados utilizadores com esse nome"})
+    }
+})
+
+/* POST find and update user */
+router.post('/editProfile/:email', passport.authenticate('jwt', {session: false}), (req, res) => {
+    console.log(req.params.email);
+    console.log(req.body);
+    User.updateUser(req.params.email, req.body)
+        .then(user => {
+            res.jsonp(user);
+        })
+        .catch(error => res.status(500).jsonp(error));
 });
 
 /* POST new user */
@@ -29,5 +53,6 @@ router.post('/new', (req, res) => {
         })
         .catch(error => res.status(500).jsonp(error));
 });
+
 
 module.exports = router;

@@ -1,7 +1,10 @@
 extends layout
 
 block content
-  h1 UMinho - ISN
-  p Bem vindo à UMinho - ISN
-  P Feed de Noticias (Página Principal)
-  p= dados.firstName
+  h1 Feed de Noticias
+  p Bem vindo #{dados.firstName}
+  .container
+    form
+      textarea(class="form-control" name="textarea" placeholder="Em que estás a pensar?")
+      input(type="file" class="form-control-file" name="inputFile")
+      button(type="submit" class="btn btn-primary") Publicar
