@@ -14,11 +14,12 @@ router.get('/my-profile/:email', passport.authenticate('jwt', {session: false}),
 /* GET user info login . */
 router.get('/:email', passport.authenticate('jwt', { session: false }), function (req, res) {
     User.userLogin(req.params.email)
-        .then(user => res.jsonp(user))
+        .then(user => {
+            console.log(user);
+            res.jsonp(user)
+        })
         .catch(e => res.status(500).jsonp(e)); 
 });
-
-
 
 /* POST new user */
 router.post('/new', (req, res) => {

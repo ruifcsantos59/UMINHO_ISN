@@ -25,11 +25,12 @@ router.get('/my-profile', verificaAutenticacao, (req, res) => {
   res.render('my-profile')
 })
 
-
 /* POST Sign In */
 router.post('/signin', passport.authenticate('local', {
     successRedirect: '/feed',
+    successFlash: "Utilizador autenticado com sucesso",
     failureRedirect: '/',
+    failureFlash: "Utilizador ou password incorretos"
   })
 )
 

@@ -28,13 +28,13 @@ passport.use(new LocalStrategy(
   axios.get('http://localhost:3001/api/user/' + email + '?token=' + token + '&login=yes')
     .then(dados => {
       const user = dados.data
-      user["token"] = token;
       if(!user) { 
         return done(null, false, {message: 'Utilizador inexistente!\n'})
       }
       if(!bcrypt.compareSync(password, user.password)) { 
         return done(null, false, {message: 'Password inválida!\n'})
       }
+      user["token"] = token;
       return done(null, user)
   })
   .catch(erro => done(erro))
@@ -57,7 +57,6 @@ passport.deserializeUser((email, done) => {
   console.log('Vou desserializar o utilizador: ' + email.email)
   axios.get('http://localhost:3001/api/user/' + email.email + '?token=' + token)
     .then(dados => {
-      dados.data["token"] = token;
       done(null, dados.data)
     })
     .catch(erro => done(erro, false))
