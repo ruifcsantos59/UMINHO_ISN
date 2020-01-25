@@ -4,7 +4,11 @@ block content
   h1 Feed de Noticias
   p Bem vindo #{dados.firstName}
   .container
-    form
-      textarea(class="form-control" name="textarea" placeholder="Em que estás a pensar?")
-      input(type="file" class="form-control-file" name="inputFile")
+    form(action="/newPost" method="POST" enctype="multipart/form-data")
+      div.form-group
+        input(type="text" class="form-control" name="content" placeholder="Em que estás a pensar")
+      div.form-gorup
+        label Ficheiro
+        input(type="file" class="form-control-file" name="file")
+      br   
       button(type="submit" class="btn btn-primary") Publicar

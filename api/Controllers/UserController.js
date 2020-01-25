@@ -6,7 +6,10 @@ module.exports.newUser = (u) => {
 };
 
 module.exports.user = (email) => {
-    return User.findOne({email: email}).exec();
+    return User.findOne({email: email}).populate({
+        path: 'posts',
+        model: 'Publication'
+   }).exec();
 }
 
 module.exports.userLogin = (email) => {
@@ -22,4 +25,8 @@ module.exports.updateUser = (email, body) => {
         console.log(err);
         console.log(model);
     }).exec();
+}
+
+module.exports.addPost = (id, postid) => {
+    return User.findOneAndUpdate({_id: id}, { $push: { posts: postid } }).exec();
 } 

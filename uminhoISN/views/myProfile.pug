@@ -1,7 +1,7 @@
 extends layout
 
-
 block content
+  img(src='/files/' + dados.photo alt='W3Schools.com' style='width:80%')
   p Nome: #{dados.firstName} #{dados.lastName}
   p Numero de Telemovel: #{dados.phone}
   p Email: #{dados.email}
@@ -12,10 +12,16 @@ block content
   a(href="/editProfile") Editar perfil
   br
   br
+  h2 Publicações
   if dados.posts <= 0
     p Ainda não existem publicações
   else
-    p Apresenta publicações
+    each post in dados.posts
+      hr
+      p Contéudo: #{post.content}
+      p Data de publicação: #{post.dateOfCreation}
+      hr
+  h2 Meus Amigos
   if dados.friends <= 0
     p Ainda não tem amigos adicionados
   else

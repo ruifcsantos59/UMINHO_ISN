@@ -7,7 +7,9 @@ var User = require('../Controllers/UserController');
 /* GET user info my-profile . */
 router.get('/my-profile/:email', passport.authenticate('jwt', {session: false}), (req, res) => {
     User.user(req.params.email)
-        .then(user => res.jsonp(user))
+        .then(user => {
+            res.jsonp(user)
+        })
         .catch(e => res.status(500).jsonp(e));
 });
 
@@ -25,19 +27,20 @@ router.get('/', passport.authenticate('jwt', {session: false}), function(req,res
     if(req.query.name) {
         User.findUsers(req.query.name)
             .then(users => {
-                console.log(users);
                 res.jsonp(users);
             })
             .catch(e => res.status(500).jsonp(e));
     }else {
         res.jsonp({"message": "Não foram encontrados utilizadores com esse nome"})
     }
+});
+
+router.post('/addPost/:id', (req, res) => {
+
 })
 
 /* POST find and update user */
 router.post('/editProfile/:email', passport.authenticate('jwt', {session: false}), (req, res) => {
-    console.log(req.params.email);
-    console.log(req.body);
     User.updateUser(req.params.email, req.body)
         .then(user => {
             res.jsonp(user);

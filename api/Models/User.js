@@ -30,7 +30,12 @@ var userSchema = new mongoose.Schema({
     friendRequests: {type: [friendRequestsSchema] ,required: false}, //assim ou então com a referência para o Object ID
     friends: {type: [friendSchema], required: false}, //assim ou então com a referência para o Object ID
     messages: {type: [messageSchema], required: false},
-    posts: {type: [{type: mongoose.Schema.Types.ObjectId, ref: "Publication"}], required: false}
+    posts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Publication"
+        }
+    ]
 });
 
 module.exports = mongoose.model('User', userSchema)
