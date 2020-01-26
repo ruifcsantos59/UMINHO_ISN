@@ -15,3 +15,8 @@ block content
       div
         button.btn.btn-primary(type="button" id='mais1') Adicionar mais ficheiros 
       input(type="submit" class="btn btn-primary" value="Publicar")
+  .container
+    each p in dados.friends
+      hr
+      p #{p.posts}
+      hr

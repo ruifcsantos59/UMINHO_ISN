@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    each g in dados 
+        h3 #{g.name}
+        p #{g.description}
+        p Criado por: #{g.createdBy.firstName} #{g.createdBy.lastName}
+

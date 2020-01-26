@@ -29,6 +29,7 @@ block content
         each myGroup in myGroups.groups
             p Nome: #{myGroup.name}
             p Descrição: #{myGroup.description}
+            a(href='/groups/' + myGroup._id) Ver grupo
     h3 Todos os Grupos
     if groups <= 0
         p Ainda não existem grupos criados!
@@ -36,5 +37,6 @@ block content
         each group in groups
             p Nome: #{group.name}
             p Descrição: #{group.description}
+            a(href='/groups/' + group._id) Ver grupo
     
     

@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  img(src='/files/' + dados.photo alt='W3Schools.com' style='width:80%')
+  img(src='/files/' + dados.photo alt='foto_perfil' style='width:80%')
   p Nome: #{dados.firstName} #{dados.lastName}
   p Numero de Telemovel: #{dados.phone}
   p Email: #{dados.email}
@@ -25,4 +25,6 @@ block content
   if dados.friends <= 0
     p Ainda não tem amigos adicionados
   else
-    p Apresenta Amigos
+    each f in dados.friends
+      p Nome: #{f.firstName} #{f.lastName}
+      a(href='/users/' + f.email) Ver perfil

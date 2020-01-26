@@ -8,5 +8,4 @@ block content
         each u in dados
             p Nome: #{u.firstName} #{u.lastName}
             p Email: #{u.email}
-    
-    
+            a(href='/addFriend/' + u._id) Adicionar amigo

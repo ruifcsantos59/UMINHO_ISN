@@ -4,7 +4,7 @@ var groupSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     isPrivate: { type: Boolean, required: true },
-    photo: { type: String, required: true },
+    photo: { type: String, required: false },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"

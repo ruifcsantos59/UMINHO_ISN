@@ -13,6 +13,13 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
         .catch(error => res.status(500).jsonp(error));
 })
 
+router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Group.consultGroup(req.params.id)
+        .then(group => res.jsonp(group))
+        .catch(error => res.status(500).jsonp(error));
+})
+
+
 /* POST new Post */
 router.post('/newGroup', passport.authenticate('jwt', {session: false}), (req, res) => {
     Group.newGroup(req.body)
