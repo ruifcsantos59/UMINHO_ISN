@@ -5,10 +5,13 @@ block content
   p Bem vindo #{dados.firstName}
   .container
     form(action="/newPost" method="POST" enctype="multipart/form-data")
-      div.form-group
-        input(type="text" class="form-control" name="content" placeholder="Em que estás a pensar")
-      div.form-gorup
-        label Ficheiro
-        input(type="file" class="form-control-file" name="file")
-      br   
-      button(type="submit" class="btn btn-primary") Publicar
+      .container(id="lista")
+        .container(id="f1")
+          div.form-group
+            input(type="text" class="form-control" name="content" placeholder="Em que estás a pensar")
+          div.form-gorup
+            label Ficheiro
+            input(type="file" class="form-control-file" name="file")
+      div
+        button.btn.btn-primary(type="button" id='mais1') Adicionar mais ficheiros 
+      input(type="submit" class="btn btn-primary" value="Publicar")
