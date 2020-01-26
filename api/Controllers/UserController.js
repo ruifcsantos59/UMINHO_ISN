@@ -9,7 +9,12 @@ module.exports.user = (email) => {
     return User.findOne({email: email}).populate({
         path: 'posts',
         model: 'Publication'
-   }).exec();
+   }).populate(
+    {
+        path: 'groups',
+        model: 'Group'
+    }
+   ).exec();
 }
 
 module.exports.userLogin = (email) => {
@@ -30,3 +35,16 @@ module.exports.updateUser = (email, body) => {
 module.exports.addPost = (id, postid) => {
     return User.findOneAndUpdate({_id: id}, { $push: { posts: postid } }).exec();
 } 
+
+module.exports.addGroup = (id, groupid) => {
+    return User.findOneAndUpdate({_id: id}, {$push: {groups: groupid}}).exec();
+}
+
+module.exports.myGroups = (id) => {
+    return User.findOne({_id: id}, {groups: 1}).populate(
+        {
+            path: 'groups',
+            model: 'Group'
+        }
+    ).exec();
+}

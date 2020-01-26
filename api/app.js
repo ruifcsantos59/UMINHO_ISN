@@ -12,6 +12,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/uminho_isn', {useNewUrlParser: true,
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postRouter = require('./routes/posts');
+var groupRouter = require('./routes/groups');
 
 //AUTENTICAÇÃO COM JWT
 var passport = require('passport');
@@ -59,6 +60,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/', indexRouter);
 app.use('/api/user', usersRouter);
 app.use('/api/post', postRouter);
+app.use('/api/group', groupRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -27,13 +27,19 @@ var userSchema = new mongoose.Schema({
     photo: {type: String, required: false},
     description: {type: String, required: false},
     lastAccess: {type: String, required: false},
-    friendRequests: {type: [friendRequestsSchema] ,required: false}, //assim ou então com a referência para o Object ID
-    friends: {type: [friendSchema], required: false}, //assim ou então com a referência para o Object ID
+    friendRequests: {type: [friendRequestsSchema] ,required: false},
+    friends: {type: [friendSchema], required: false}, 
     messages: {type: [messageSchema], required: false},
     posts: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Publication"
+        }
+    ],
+    groups: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group"
         }
     ]
 });

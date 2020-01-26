@@ -1,10 +1,5 @@
 const mongoose = require('mongoose');
 
-var postSchema = new mongoose.Schema({
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Publication"
-})
-
 var groupSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -14,12 +9,6 @@ var groupSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    admins: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        }
-    ],
     dateOfCreation: { type: String, required: true },
     members: [
         {
@@ -27,7 +16,12 @@ var groupSchema = new mongoose.Schema({
             ref: "User"
         }
     ],
-    posts: [postSchema]
+    posts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Publication"
+        }
+    ]
 });
 
 module.exports = mongoose.model('Group', groupSchema)

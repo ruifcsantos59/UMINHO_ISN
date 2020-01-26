@@ -13,6 +13,15 @@ router.get('/my-profile/:email', passport.authenticate('jwt', {session: false}),
         .catch(e => res.status(500).jsonp(e));
 });
 
+/* GET User groups */
+router.get('/myGroups/:id', passport.authenticate('jwt', {session: false}), function(req,res){
+    User.myGroups(req.params.id)
+        .then(groups => {
+            res.jsonp(groups);
+        })
+        .catch(e => res.status(500).jsonp(e));
+})
+
 /* GET user info login . */
 router.get('/:email', passport.authenticate('jwt', { session: false }), function (req, res) {
     User.userLogin(req.params.email)
@@ -35,9 +44,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), function(req,res
     }
 });
 
-router.post('/addPost/:id', (req, res) => {
 
-})
 
 /* POST find and update user */
 router.post('/editProfile/:email', passport.authenticate('jwt', {session: false}), (req, res) => {

@@ -13,6 +13,7 @@ var upload = multer({ dest: 'uploads/' })
 
 const apiUser = 'http://localhost:3001/api/user';
 const apiPost = 'http://localhost:3001/api/post';
+const apiGroup = 'http://localhost:3001/api/group';
 
 router.get('/', function(req, res) {
     res.render('index');
@@ -21,7 +22,6 @@ router.get('/', function(req, res) {
 router.get('/feed', verificaAutenticacao, function(req, res){
   axios.get(apiUser + '/my-profile/' + req.session.passport.user.email + '?token=' + req.session.passport.user.token)
     .then(dados => {
-      console.log(dados.data);
       res.render('feed', {dados: dados.data})
     })
     .catch(e => console.log(e));
@@ -35,7 +35,7 @@ router.get('/signout', verificaAutenticacao, (req,res) => {
 router.get('/myProfile', verificaAutenticacao, (req, res) => {
   axios.get(apiUser + '/my-profile/' + req.session.passport.user.email + '?token=' + req.session.passport.user.token)
     .then(dados => {
-      console.log(dados.data);
+      console.log(dados.data)
       res.render('myProfile', {dados: dados.data})
     })
     .catch(e => console.log(e));
@@ -48,6 +48,53 @@ router.get('/editProfile', verificaAutenticacao, (req, res) => {
     })
     .catch(e => console.log(e));
 });
+
+router.get('/groups', verificaAutenticacao, (req, res) => {
+  axios.get(apiUser + '/myGroups/' + req.session.passport.user._id + '/?token=' + req.session.passport.user.token)
+    .then(myGroups => {
+      console.log(myGroups.data);
+      axios.get(apiGroup + '/?token=' + req.session.passport.user.token)
+        .then(groups => {
+          console.log(myGroups.data);
+          console.log(groups.data);
+          res.render('groups', {myGroups: myGroups.data, groups: groups.data});
+        })
+        .catch(e => res.render('error', {error: e}));
+    })
+    .catch(e => res.render('error', {error: e}));
+})
+
+router.post('/newGroup', upload.single('photo'), verificaAutenticacao, (req, res) => {
+
+  console.log(req.file);
+  console.log(req.body);
+
+  let oldPath = __dirname + '/../' + req.file.path;
+  let newPath = __dirname + '/../public/files/' + req.file.originalname;
+
+  fs.rename(oldPath, newPath, function(err){
+    if (err) throw err
+  });
+
+  var isPrivate = false
+
+  if(req.body.isPrivate === "True"){
+    isPrivate = true;
+  }
+
+  let date = new Date();
+
+  axios.post(apiGroup + '/newGroup/' + '?token=' + req.session.passport.user.token, {
+    createdBy: req.session.passport.user._id,
+    name: req.body.name,
+    description: req.body.description,
+    photo: req.file.originalname,
+    dateOfCreation: date.toISOString(),
+    isPrivate: isPrivate
+  })
+    .then(dados => res.redirect('/groups'))
+    .catch(e => console.log(e));
+})
 
 router.post('/editProfile', upload.single('photo'), verificaAutenticacao, (req, res) => {
 
@@ -82,7 +129,6 @@ router.post('/findUsers', verificaAutenticacao, (req, res) => {
     .catch(e => console.log(e));
 })
 
-/* POST Sign In */
 router.post('/signin', passport.authenticate('local', {
     successRedirect: '/feed',
     successFlash: "Utilizador autenticado com sucesso",
@@ -90,9 +136,7 @@ router.post('/signin', passport.authenticate('local', {
     failureFlash: "Utilizador ou password incorretos"
 }))
 
-/* POST Sign Up */
 router.post('/signup', (req, res) => {
-  console.log(req.body);
   var hash = bcrypt.hashSync(req.body.password, 8);
   axios.post(apiUser + '/new', {
     firstName: req.body.firstName,
@@ -107,7 +151,6 @@ router.post('/signup', (req, res) => {
     .catch(e => res.render('error', {error: e}));
 })
 
-/* POST new publication */
 router.post('/newPost', upload.single('file'), verificaAutenticacao, (req, res) => {
   let oldPath = __dirname + '/../' + req.file.path;
   let newPath = __dirname + '/../public/files/' + req.file.originalname;
@@ -127,7 +170,6 @@ router.post('/newPost', upload.single('file'), verificaAutenticacao, (req, res) 
     }],
     dateOfCreation: date.toISOString()
   }).then(dados => {
-    console.log(dados);
     res.redirect('/feed')
   }).catch(e => console.log(e));
 })

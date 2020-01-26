@@ -9,10 +9,6 @@ var comentSchema = new mongoose.Schema({
     date: {type: String, required: true}
 });
 
-var fileSchema = new mongoose.Schema({
-    name: String,
-    mimetype: String,
-})
 
 var publicationSchema = new mongoose.Schema({
     author: { 
@@ -23,7 +19,12 @@ var publicationSchema = new mongoose.Schema({
     dateOfCreation: { type: String, required: true},
     content: { type: String, required: true},
     tags: [String], 
-    files: [fileSchema],
+    files: [
+        {
+            name: String,
+            mimetype: String,
+        }
+    ],
     likes: Number,
     coments: [comentSchema]
 });
