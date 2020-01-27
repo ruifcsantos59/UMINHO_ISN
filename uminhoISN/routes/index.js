@@ -106,13 +106,14 @@ router.get('/editProfile', verificaAutenticacao, (req, res) => {
 router.get('/groups/:id', verificaAutenticacao, (req, res) => {
 	axios
 		.get(
-			apiGroup + "/" +
+			apiGroup +
+				'/' +
 				req.params.id +
 				'?token=' +
 				req.session.passport.user.token
 		)
 		.then(dados => {
-      console.log(dados.data)
+			console.log(dados.data);
 			res.render('group', { dados: dados.data });
 		})
 		.catch(e => console.log(e));
@@ -294,20 +295,32 @@ router.post('/signup', (req, res) => {
 
 router.post(
 	'/newPost',
-	upload.single('file'),
+	upload.array('file'),
 	verificaAutenticacao,
 	(req, res) => {
-		if (req.file) {
-			let oldPath = __dirname + '/../' + req.file.path;
-			let newPath =
-				__dirname + '/../public/files/' + req.file.originalname;
+		if (req.files) {
+      let arrayFiles = [];
 
-			fs.rename(oldPath, newPath, function(err) {
-				if (err) throw err;
-			});
+			for (let index = 0; index < req.files.length; index++) {
+				let file = req.files[index];
 
-			let date = new Date();
+				let oldPath = __dirname + '/../' + file.path;
+				let newPath =
+					__dirname + '/../public/files/' + file.originalname;
 
+				fs.rename(oldPath, newPath, function(err) {
+					if (err) throw err;
+				});
+
+				let newFile = {
+					name: file.originalname,
+					mimetype: file.mimetype
+				};
+
+				arrayFiles.push(newFile);
+      }
+      
+      let date = new Date();
 			axios
 				.post(
 					apiPost +
@@ -317,12 +330,7 @@ router.post(
 					{
 						author: req.session.passport.user._id,
 						content: req.body.content,
-						files: [
-							{
-								name: req.file.originalname,
-								mimetype: req.file.mimetype
-							}
-						],
+						files: arrayFiles,
 						dateOfCreation: date.toISOString()
 					}
 				)
@@ -331,6 +339,7 @@ router.post(
 				})
 				.catch(e => console.log(e));
 		} else {
+
 			let date = new Date();
 
 			axios

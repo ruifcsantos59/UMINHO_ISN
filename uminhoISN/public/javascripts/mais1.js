@@ -7,18 +7,11 @@ $(() => {
 
         var campo = $('<div></div>', {id: 'f' + cont })
 
-        var desc = $('<div></div>', {id: 'desc' + cont });
-        var descLabel = $('<label>Descrição</label>');
-        var descInput = $('<input/>', { type: "text", name: "desc" });
-
-        var ficheiro = $('<div></div>', {id: 'ficheiro' + cont });
-        var ficheiroLabel = $('<label >Ficheiro:</label>');
-        var ficheiroInput = $('<input/>', {type: "file", name: "ficheiro" });
+        var ficheiro = $('<div></div>', {id: 'file' + cont });
+        var ficheiroLabel = $('<label>Ficheiro:</label>');
+        var ficheiroInput = $('<input/>', {type: "file", name: "file" });
 
         console.log(campo)
-        console.log(desc);
-        console.log(descLabel);
-        console.log(descInput);
 
         console.log(ficheiro);
         console.log(ficheiroLabel);
@@ -26,10 +19,7 @@ $(() => {
 
         $("#lista").append(campo);
 
-        $("#f" + cont).append(desc);
-        $("#desc" + cont).append(descLabel, descInput);
-
         $("#f" + cont).append(ficheiro);
-        $("#ficheiro" + cont).append(ficheiroLabel, ficheiroInput)
+        $("#file" + cont).append(ficheiroLabel, ficheiroInput)
     })
 })
