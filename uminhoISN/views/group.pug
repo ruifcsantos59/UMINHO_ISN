@@ -6,7 +6,7 @@ block content
         p #{g.description}
         p Criado por: #{g.createdBy.firstName} #{g.createdBy.lastName}
         .container
-            form(action="/newPost" method="POST" enctype="multipart/form-data")
+            form(action="/newPostInGroup?groupid=" + g._id method="POST" enctype="multipart/form-data")
                 .container(id="lista")
                     .container(id="f1")
                     div.form-group
