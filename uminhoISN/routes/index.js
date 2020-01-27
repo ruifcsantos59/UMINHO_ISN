@@ -54,15 +54,15 @@ router.get('/addFriend/:id', verificaAutenticacao, function(req, res) {
 router.get('/feed', verificaAutenticacao, function(req, res) {
 	axios
 		.get(
-			apiUser +
+			apiPost +
 				'/feed/' +
-				req.session.passport.user.email +
+				req.session.passport.user._id +
 				'?token=' +
 				req.session.passport.user.token
 		)
 		.then(dados => {
-			console.log(dados.data.friends.posts);
-			res.render('feed', { dados: dados.data });
+			res.jsonp(dados.data);
+			//res.render('feed', { dados: dados.data });
 		})
 		.catch(e => console.log(e));
 });
@@ -299,7 +299,7 @@ router.post(
 	verificaAutenticacao,
 	(req, res) => {
 		if (req.files) {
-      let arrayFiles = [];
+			let arrayFiles = [];
 
 			for (let index = 0; index < req.files.length; index++) {
 				let file = req.files[index];
@@ -308,7 +308,7 @@ router.post(
 				let newPath =
 					__dirname + '/../public/files/' + file.originalname;
 
-				fs.rename(oldPath, newPath, function(err) {
+				fs.rename(oldPath, newPath, err => {
 					if (err) throw err;
 				});
 
@@ -318,9 +318,9 @@ router.post(
 				};
 
 				arrayFiles.push(newFile);
-      }
-      
-      let date = new Date();
+			}
+
+			let date = new Date();
 			axios
 				.post(
 					apiPost +
@@ -339,7 +339,6 @@ router.post(
 				})
 				.catch(e => console.log(e));
 		} else {
-
 			let date = new Date();
 
 			axios

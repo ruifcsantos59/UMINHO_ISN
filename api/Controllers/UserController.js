@@ -63,19 +63,6 @@ module.exports.myGroups = id => {
 		.exec();
 };
 
-module.exports.feed = email => {
-	return User.findOne({ email: email })
-		.populate({
-			path: 'friends',
-			model: 'User',
-			populate: {
-                path: 'posts',
-                model: 'Publication'
-			}
-		})
-		.exec();
-};
-
 module.exports.addFriend = (email, friendID) => {
 	return User.findOneAndUpdate(
 		{ email: email },

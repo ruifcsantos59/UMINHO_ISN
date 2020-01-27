@@ -30,19 +30,6 @@ router.get(
 	}
 );
 
-//TO TEST!
-router.get(
-	'/feed/:email',
-	passport.authenticate('jwt', { session: false }),
-	(req, res) => {
-		User.feed(req.params.email)
-			.then(user => {
-				res.jsonp(user);
-			})
-			.catch(e => res.status(500).jsonp(e));
-	}
-);
-
 /* GET add friends */
 router.get(
 	'/addFriend/:email',
