@@ -317,7 +317,14 @@ router.post(
 				arrayFiles.push(newFile);
 			}
 
-      let date = new Date();
+			let isPrivate = false;
+			if(req.body.isPrivate === "true"){
+				isPrivate = true;
+			}else{
+				isPrivate = false;
+			}
+
+      		let date = new Date();
 			axios
 				.post(
 					apiPost +
@@ -331,7 +338,7 @@ router.post(
 						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' }),
 						hasGroup: false,
 						emailOfAuthor: req.session.passport.user.email,
-						isPrivate: true,
+						isPrivate: isPrivate,
 					}
 				)
 				.then(dados => {
@@ -353,7 +360,7 @@ router.post(
 						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' }),
 						hasGroup: true,
 						emailOfAuthor: req.session.passport.user.email,
-						isPrivate: true,
+						isPrivate: isPrivate,
 					}
 				)
 				.then(dados => {
