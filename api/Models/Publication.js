@@ -17,7 +17,6 @@ var publicationSchema = new mongoose.Schema({
         required: true
     },
     emailOfAuthor: {type: String, required: true},
-    nameOfAuthor: {type: String, required: true},
     dateOfCreation: { type: String, required: true},
     content: { type: String, required: true},
     tags: [String], 
@@ -29,6 +28,7 @@ var publicationSchema = new mongoose.Schema({
     ],
     isPrivate: {type: Boolean, required: true},
     likes: Number,
+    hasGroup: {type: Boolean, required: true},
     coments: [comentSchema]
 });
 

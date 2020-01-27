@@ -328,7 +328,10 @@ router.post(
 						author: req.session.passport.user._id,
 						content: req.body.content,
 						files: arrayFiles,
-						dateOfCreation: date.toISOString()
+						dateOfCreation: date.toISOString(),
+						hasGroup: false,
+						emailOfAuthor: req.session.passport.user.email,
+						isPrivate: true,
 					}
 				)
 				.then(dados => {
@@ -347,7 +350,10 @@ router.post(
 					{
 						author: req.session.passport.user._id,
 						content: req.body.content,
-						dateOfCreation: date.toISOString()
+						dateOfCreation: date.toISOString(),
+						hasGroup: true,
+						emailOfAuthor: req.session.passport.user.email,
+						isPrivate: true,
 					}
 				)
 				.then(dados => {
@@ -357,6 +363,80 @@ router.post(
 		}
 	}
 );
+
+router.post('/newPostInGroup', upload.array('file'), verificaAutenticacao, (req, res) => {
+	if (req.files) {
+		console.log(req.query.groupid);
+		let arrayFiles = [];
+
+		for (let index = 0; index < req.files.length; index++) {
+			let file = req.files[index];
+
+			let oldPath = __dirname + '/../' + file.path;
+			let newPath =
+				__dirname + '/../public/files/' + file.originalname;
+
+			fs.rename(oldPath, newPath, err => {
+				if (err) throw err;
+			});
+
+			let newFile = {
+				name: file.originalname,
+				mimetype: file.mimetype
+			};
+
+			arrayFiles.push(newFile);
+		}
+
+		let date = new Date();
+		axios
+			.post(
+				apiPost +
+					'/newPost/' +
+					'?token=' +
+					req.session.passport.user.token +
+					'&groupID=' +
+					req.query.groupid,
+				{
+					author: req.session.passport.user._id,
+					content: req.body.content,
+					files: arrayFiles,
+					dateOfCreation: date.toISOString(),
+					hasGroup: true,
+					emailOfAuthor: req.session.passport.user.email,
+					isPrivate: false,
+				}
+			)
+			.then(dados => {
+				res.redirect('/feed');
+			})
+			.catch(e => console.log(e));
+	} else {
+		let date = new Date();
+		console.log(req.query.groupid)
+		axios
+			.post(
+				apiPost +
+					'/newPost/' +
+					'?token=' +
+					req.session.passport.user.token +
+					'&groupID=' +
+					req.query.groupid,
+				{
+					author: req.session.passport.user._id,
+					content: req.body.content,
+					dateOfCreation: date.toISOString(),
+					hasGroup: true,
+					emailOfAuthor: req.session.passport.user.email,
+					isPrivate: false,
+				}
+			)
+			.then(dados => {
+				res.redirect('/feed');
+			})
+			.catch(e => console.log(e));
+	}
+})
 
 function verificaAutenticacao(req, res, next) {
 	if (req.isAuthenticated()) {
