@@ -23,7 +23,11 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) =>
 
 router.get('/addMember/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     Group.addMember(req.params.id, req.query.userid)
-        .then(group => res.jsonp(group))
+        .then(group =>{
+            User.addGroup(req.query.userid, group._id)
+                .then(member => res.jsonp(group))
+                .catch(error => res.status(500).jsonp(error));
+        })
         .catch(error => res.status(500).jsonp(error));
 })
 

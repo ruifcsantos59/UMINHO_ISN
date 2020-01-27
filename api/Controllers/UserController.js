@@ -77,3 +77,10 @@ module.exports.addFriendPerId = (id, friendID) => {
 module.exports.verifyFriend = (email, userID) => {
 	return User.find({_id: id, friends: userID}).exec();
 }
+
+module.exports.addGroup = (id, groupID) => {
+	return User.findByIdAndUpdate(
+		{_id: id},
+		{$push: {groups: groupID}})
+		.exec();
+}
