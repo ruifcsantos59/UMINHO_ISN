@@ -142,6 +142,25 @@ router.get('/groups', verificaAutenticacao, (req, res) => {
 		.catch(e => res.write('Welcome to our API'));
 });
 
+router.get('/joinGroup/:id', verificaAutenticacao, (req, res) => {
+	console.log(req.params.id)
+
+	axios
+		.get(
+			apiGroup +
+				'/addMember/' +
+				req.params.id +
+				'/?token=' +
+				req.session.passport.user.token +
+				'&userid=' +
+				req.session.passport.user._id
+		)
+		.then(myGroups => {
+			res.redirect('/groups')
+		})
+		.catch(e => res.write('Welcome to our API'));
+});
+
 router.post(
 	'/newGroup',
 	upload.single('photo'),
