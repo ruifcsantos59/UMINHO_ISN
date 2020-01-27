@@ -436,7 +436,11 @@ router.post('/newPostInGroup', upload.array('file'), verificaAutenticacao, (req,
 			})
 			.catch(e => console.log(e));
 	}
-})
+});
+
+router.get('/download/:fname', function(req, res){
+	res.download( __dirname + '/../public/files/' + req.params.fname )
+  })
 
 function verificaAutenticacao(req, res, next) {
 	if (req.isAuthenticated()) {

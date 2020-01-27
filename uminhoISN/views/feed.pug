@@ -28,6 +28,5 @@ block content
                   tr
                     td= f.name
                     td 
-                      form(action=`` method='get')
-                          input.w3-btn.w3-border.w3-blue(type='submit' value='+ info')
+                      a(href="/download/" + f.name) Download
         hr
