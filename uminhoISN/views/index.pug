@@ -1,8 +1,8 @@
 extends layoutAuth
 
 block content
-  h1 UMinho - ISN
-  p Bem vindo à UMinho - ISN
+  h1.font-weight-bold UMinhoISN
+  h3.mb-5 Bem-vindo/a à tua Informatics Social Network
   .container
     .container
       form(action="/signin" method="POST")
@@ -32,7 +32,7 @@ block content
         div.form-group
           input(type="password" class="form-control" name="password" placeholder="Palavra Passe")
         div.form-group
-          input(type="text" class="form-control" name="dateOfBirth" placeholder="Data de Nascimento")
+          input(class="form-control" type="date" name="dateOfBirth" placeholder="Data de Nascimento")
         div.form-group
           div(class="form-check form-check-inline")
             input(type="radio" class="form-check-input" name="gender" value="Feminino")

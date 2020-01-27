@@ -1,22 +1,33 @@
 extends layout
 
 block content
-  h1 Feed de Noticias
-  p Bem vindo #{dados.firstName}
-  .container
-    form(action="/newPost" method="POST" enctype="multipart/form-data")
-      .container(id="lista")
-        .container(id="f1")
-          div.form-group
-            input(type="text" class="form-control" name="content" placeholder="Em que estás a pensar")
-          div.form-gorup
-            label Ficheiro
-            input(type="file" class="form-control-file" name="file")
-      div
-        button.btn.btn-primary(type="button" id='mais1') Adicionar mais ficheiros 
-      input(type="submit" class="btn btn-primary" value="Publicar")
-  .container
-    each p in dados.friends
-      hr
-      p #{p.posts}
-      hr
+  div
+    h1 Feed de Noticias
+    p Bem-vindo/a
+    .container
+      form(action="/newPost" method="POST" enctype="multipart/form-data")
+        .container(id="lista")
+          .container(id="f1")
+            div.form-group
+              input(type="text" class="form-control" name="content" placeholder="Em que estás a pensar")
+            div.form-gorup
+              label Ficheiro
+              input(type="file" class="form-control-file" name="file")
+        div
+          button.btn.btn-primary(type="button" id='mais1') Adicionar mais ficheiros 
+        input(type="submit" class="btn btn-primary" value="Publicar")
+    .container
+      each p in dados
+        hr
+        p #{p.content}
+          table
+            tr
+              th Ficheiro
+              th Download
+                each f in p.files
+                  tr
+                    td= f.name
+                    td 
+                      form(action=`` method='get')
+                          input.w3-btn.w3-border.w3-blue(type='submit' value='+ info')
+        hr

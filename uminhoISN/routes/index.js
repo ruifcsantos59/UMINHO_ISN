@@ -61,8 +61,8 @@ router.get('/feed', verificaAutenticacao, function(req, res) {
 				req.session.passport.user.token
 		)
 		.then(dados => {
-			res.jsonp(dados.data);
-			//res.render('feed', { dados: dados.data });
+			// res.jsonp(dados.data);
+			res.render('feed', { dados: dados.data });
 		})
 		.catch(e => console.log(e));
 });
@@ -177,7 +177,7 @@ router.post(
 						name: req.body.name,
 						description: req.body.description,
 						photo: req.file.originalname,
-						dateOfCreation: date.toISOString(),
+						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' }),
 						isPrivate: isPrivate
 					}
 				)
@@ -202,7 +202,7 @@ router.post(
 						createdBy: req.session.passport.user._id,
 						name: req.body.name,
 						description: req.body.description,
-						dateOfCreation: date.toISOString(),
+						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' }),
 						isPrivate: isPrivate
 					}
 				)
@@ -317,7 +317,7 @@ router.post(
 				arrayFiles.push(newFile);
 			}
 
-			let date = new Date();
+      let date = new Date();
 			axios
 				.post(
 					apiPost +
@@ -328,7 +328,8 @@ router.post(
 						author: req.session.passport.user._id,
 						content: req.body.content,
 						files: arrayFiles,
-						dateOfCreation: date.toISOString()
+						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' })
+
 					}
 				)
 				.then(dados => {
@@ -347,7 +348,7 @@ router.post(
 					{
 						author: req.session.passport.user._id,
 						content: req.body.content,
-						dateOfCreation: date.toISOString()
+						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' })
 					}
 				)
 				.then(dados => {
