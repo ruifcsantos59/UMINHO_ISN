@@ -177,7 +177,9 @@ router.post(
 						name: req.body.name,
 						description: req.body.description,
 						photo: req.file.originalname,
-						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' }),
+						dateOfCreation: date.toLocaleString('en-GB', {
+							timeZone: 'UTC'
+						}),
 						isPrivate: isPrivate
 					}
 				)
@@ -202,7 +204,9 @@ router.post(
 						createdBy: req.session.passport.user._id,
 						name: req.body.name,
 						description: req.body.description,
-						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' }),
+						dateOfCreation: date.toLocaleString('en-GB', {
+							timeZone: 'UTC'
+						}),
 						isPrivate: isPrivate
 					}
 				)
@@ -317,7 +321,7 @@ router.post(
 				arrayFiles.push(newFile);
 			}
 
-      let date = new Date();
+			let date = new Date();
 			axios
 				.post(
 					apiPost +
@@ -328,10 +332,12 @@ router.post(
 						author: req.session.passport.user._id,
 						content: req.body.content,
 						files: arrayFiles,
-						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' }),
+						dateOfCreation: date.toLocaleString('en-GB', {
+							timeZone: 'UTC'
+						}),
 						hasGroup: false,
 						emailOfAuthor: req.session.passport.user.email,
-						isPrivate: true,
+						isPrivate: true
 					}
 				)
 				.then(dados => {
@@ -350,10 +356,12 @@ router.post(
 					{
 						author: req.session.passport.user._id,
 						content: req.body.content,
-						dateOfCreation: date.toLocaleString('en-GB', { timeZone: 'UTC' }),
+						dateOfCreation: date.toLocaleString('en-GB', {
+							timeZone: 'UTC'
+						}),
 						hasGroup: true,
 						emailOfAuthor: req.session.passport.user.email,
-						isPrivate: true,
+						isPrivate: true
 					}
 				)
 				.then(dados => {
@@ -364,83 +372,88 @@ router.post(
 	}
 );
 
-router.post('/newPostInGroup', upload.array('file'), verificaAutenticacao, (req, res) => {
-	if (req.files) {
-		console.log(req.query.groupid);
-		let arrayFiles = [];
+router.post(
+	'/newPostInGroup',
+	upload.array('file'),
+	verificaAutenticacao,
+	(req, res) => {
+		if (req.files) {
+			console.log(req.query.groupid);
+			let arrayFiles = [];
 
-		for (let index = 0; index < req.files.length; index++) {
-			let file = req.files[index];
+			for (let index = 0; index < req.files.length; index++) {
+				let file = req.files[index];
 
-			let oldPath = __dirname + '/../' + file.path;
-			let newPath =
-				__dirname + '/../public/files/' + file.originalname;
+				let oldPath = __dirname + '/../' + file.path;
+				let newPath =
+					__dirname + '/../public/files/' + file.originalname;
 
-			fs.rename(oldPath, newPath, err => {
-				if (err) throw err;
-			});
+				fs.rename(oldPath, newPath, err => {
+					if (err) throw err;
+				});
 
-			let newFile = {
-				name: file.originalname,
-				mimetype: file.mimetype
-			};
+				let newFile = {
+					name: file.originalname,
+					mimetype: file.mimetype
+				};
 
-			arrayFiles.push(newFile);
+				arrayFiles.push(newFile);
+			}
+
+			let date = new Date();
+			axios
+				.post(
+					apiPost +
+						'/newPost/' +
+						'?token=' +
+						req.session.passport.user.token +
+						'&groupID=' +
+						req.query.groupid,
+					{
+						author: req.session.passport.user._id,
+						content: req.body.content,
+						files: arrayFiles,
+						dateOfCreation: date.toISOString(),
+						hasGroup: true,
+						emailOfAuthor: req.session.passport.user.email,
+						isPrivate: false
+					}
+				)
+				.then(dados => {
+					res.redirect('/feed');
+				})
+				.catch(e => console.log(e));
+		} else {
+			let date = new Date();
+			console.log(req.query.groupid);
+			axios
+				.post(
+					apiPost +
+						'/newPost/' +
+						'?token=' +
+						req.session.passport.user.token +
+						'&groupID=' +
+						req.query.groupid,
+					{
+						author: req.session.passport.user._id,
+						content: req.body.content,
+						dateOfCreation: date.toISOString(),
+						hasGroup: true,
+						emailOfAuthor: req.session.passport.user.email,
+						isPrivate: false
+					}
+				)
+				.then(dados => {
+					res.redirect('/feed');
+				})
+				.catch(e => console.log(e));
 		}
-
-		let date = new Date();
-		axios
-			.post(
-				apiPost +
-					'/newPost/' +
-					'?token=' +
-					req.session.passport.user.token +
-					'&groupID=' +
-					req.query.groupid,
-				{
-					author: req.session.passport.user._id,
-					content: req.body.content,
-					files: arrayFiles,
-					dateOfCreation: date.toISOString(),
-					hasGroup: true,
-					emailOfAuthor: req.session.passport.user.email,
-					isPrivate: false,
-				}
-			)
-			.then(dados => {
-				res.redirect('/feed');
-			})
-			.catch(e => console.log(e));
-	} else {
-		let date = new Date();
-		console.log(req.query.groupid)
-		axios
-			.post(
-				apiPost +
-					'/newPost/' +
-					'?token=' +
-					req.session.passport.user.token +
-					'&groupID=' +
-					req.query.groupid,
-				{
-					author: req.session.passport.user._id,
-					content: req.body.content,
-					dateOfCreation: date.toISOString(),
-					hasGroup: true,
-					emailOfAuthor: req.session.passport.user.email,
-					isPrivate: false,
-				}
-			)
-			.then(dados => {
-				res.redirect('/feed');
-			})
-			.catch(e => console.log(e));
 	}
-});
+);
 
-router.get('/download/:fname', function(req, res){
-	res.download( __dirname + '/../public/files/' + req.params.fname )
-  })
+router.get('/download/:fname', function(req, res) {
+	res.download(__dirname + '/../public/files/' + req.params.fname);
+});
 
 function verificaAutenticacao(req, res, next) {
 	if (req.isAuthenticated()) {
