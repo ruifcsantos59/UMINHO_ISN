@@ -46,7 +46,7 @@ router.get('/addFriend/:id', verificaAutenticacao, function(req, res) {
 				req.session.passport.user.token
 		)
 		.then(dados => {
-			res.render('feed', { dados: dados.data });
+			res.redirect('/feed');
 		})
 		.catch(e => console.log(e));
 });
