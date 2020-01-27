@@ -15,18 +15,18 @@ const apiUser = 'http://localhost:3001/api/user';
 const apiPost = 'http://localhost:3001/api/post';
 const apiGroup = 'http://localhost:3001/api/group';
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
 	res.render('index');
 });
 
-router.get('/users/:email', verificaAutenticacao, function(req, res) {
+router.get('/users/:email', verificaAutenticacao, function (req, res) {
 	axios
 		.get(
 			apiUser +
-				'/my-profile/' +
-				req.params.email +
-				'?token=' +
-				req.session.passport.user.token
+			'/my-profile/' +
+			req.params.email +
+			'?token=' +
+			req.session.passport.user.token
 		)
 		.then(dados => {
 			res.render('myProfile', { dados: dados.data });
@@ -34,16 +34,16 @@ router.get('/users/:email', verificaAutenticacao, function(req, res) {
 		.catch(e => console.log(e));
 });
 
-router.get('/addFriend/:id', verificaAutenticacao, function(req, res) {
+router.get('/addFriend/:id', verificaAutenticacao, function (req, res) {
 	axios
 		.get(
 			apiUser +
-				'/addFriend/' +
-				req.session.passport.user.email +
-				'?friend=' +
-				req.params.id +
-				'&token=' +
-				req.session.passport.user.token
+			'/addFriend/' +
+			req.session.passport.user.email +
+			'?friend=' +
+			req.params.id +
+			'&token=' +
+			req.session.passport.user.token
 		)
 		.then(dados => {
 			res.render('feed', { dados: dados.data });
@@ -51,18 +51,18 @@ router.get('/addFriend/:id', verificaAutenticacao, function(req, res) {
 		.catch(e => console.log(e));
 });
 
-router.get('/feed', verificaAutenticacao, function(req, res) {
+router.get('/feed', verificaAutenticacao, function (req, res) {
 	axios
 		.get(
-			apiUser +
-				'/feed/' +
-				req.session.passport.user.email +
-				'?token=' +
-				req.session.passport.user.token
+			apiPost +
+			'/feed/' +
+			req.session.passport.user._id +
+			'?token=' +
+			req.session.passport.user.token
 		)
 		.then(dados => {
-			console.log(dados.data.friends.posts);
-			res.render('feed', { dados: dados.data });
+			res.jsonp(dados.data);
+			//res.render('feed', { dados: dados.data });
 		})
 		.catch(e => console.log(e));
 });
@@ -76,10 +76,10 @@ router.get('/myProfile', verificaAutenticacao, (req, res) => {
 	axios
 		.get(
 			apiUser +
-				'/my-profile/' +
-				req.session.passport.user.email +
-				'?token=' +
-				req.session.passport.user.token
+			'/my-profile/' +
+			req.session.passport.user.email +
+			'?token=' +
+			req.session.passport.user.token
 		)
 		.then(dados => {
 			console.log(dados.data);
@@ -92,10 +92,10 @@ router.get('/editProfile', verificaAutenticacao, (req, res) => {
 	axios
 		.get(
 			apiUser +
-				'/my-profile/' +
-				req.session.passport.user.email +
-				'?token=' +
-				req.session.passport.user.token
+			'/my-profile/' +
+			req.session.passport.user.email +
+			'?token=' +
+			req.session.passport.user.token
 		)
 		.then(dados => {
 			res.render('editProfile', { dados: dados.data });
@@ -107,12 +107,12 @@ router.get('/groups/:id', verificaAutenticacao, (req, res) => {
 	axios
 		.get(
 			apiGroup + "/" +
-				req.params.id +
-				'?token=' +
-				req.session.passport.user.token
+			req.params.id +
+			'?token=' +
+			req.session.passport.user.token
 		)
 		.then(dados => {
-      console.log(dados.data)
+			console.log(dados.data)
 			res.render('group', { dados: dados.data });
 		})
 		.catch(e => console.log(e));
@@ -122,10 +122,10 @@ router.get('/groups', verificaAutenticacao, (req, res) => {
 	axios
 		.get(
 			apiUser +
-				'/myGroups/' +
-				req.session.passport.user._id +
-				'/?token=' +
-				req.session.passport.user.token
+			'/myGroups/' +
+			req.session.passport.user._id +
+			'/?token=' +
+			req.session.passport.user.token
 		)
 		.then(myGroups => {
 			console.log(myGroups.data);
@@ -156,7 +156,7 @@ router.post(
 			let newPath =
 				__dirname + '/../public/files/' + req.file.originalname;
 
-			fs.rename(oldPath, newPath, function(err) {
+			fs.rename(oldPath, newPath, function (err) {
 				if (err) throw err;
 			});
 
@@ -171,9 +171,9 @@ router.post(
 			axios
 				.post(
 					apiGroup +
-						'/newGroup/' +
-						'?token=' +
-						req.session.passport.user.token,
+					'/newGroup/' +
+					'?token=' +
+					req.session.passport.user.token,
 					{
 						createdBy: req.session.passport.user._id,
 						name: req.body.name,
@@ -197,9 +197,9 @@ router.post(
 			axios
 				.post(
 					apiGroup +
-						'/newGroup/' +
-						'?token=' +
-						req.session.passport.user.token,
+					'/newGroup/' +
+					'?token=' +
+					req.session.passport.user.token,
 					{
 						createdBy: req.session.passport.user._id,
 						name: req.body.name,
@@ -222,17 +222,17 @@ router.post(
 		let oldPath = __dirname + '/../' + req.file.path;
 		let newPath = __dirname + '/../public/files/' + req.file.originalname;
 
-		fs.rename(oldPath, newPath, function(err) {
+		fs.rename(oldPath, newPath, function (err) {
 			if (err) throw err;
 		});
 
 		axios
 			.post(
 				apiUser +
-					'/editProfile/' +
-					req.session.passport.user.email +
-					'?token=' +
-					req.session.passport.user.token,
+				'/editProfile/' +
+				req.session.passport.user.email +
+				'?token=' +
+				req.session.passport.user.token,
 				{
 					firstName: req.body.firstName,
 					lastName: req.body.lastName,
@@ -254,10 +254,10 @@ router.post('/findUsers', verificaAutenticacao, (req, res) => {
 	axios
 		.get(
 			apiUser +
-				'/?name=' +
-				req.body.name +
-				'&token=' +
-				req.session.passport.user.token
+			'/?name=' +
+			req.body.name +
+			'&token=' +
+			req.session.passport.user.token
 		)
 		.then(dados => {
 			console.log(dados.data);
@@ -302,7 +302,7 @@ router.post(
 			let newPath =
 				__dirname + '/../public/files/' + req.file.originalname;
 
-			fs.rename(oldPath, newPath, function(err) {
+			fs.rename(oldPath, newPath, function (err) {
 				if (err) throw err;
 			});
 
@@ -311,9 +311,9 @@ router.post(
 			axios
 				.post(
 					apiPost +
-						'/newPost/' +
-						'?token=' +
-						req.session.passport.user.token,
+					'/newPost/' +
+					'?token=' +
+					req.session.passport.user.token,
 					{
 						author: req.session.passport.user._id,
 						content: req.body.content,
@@ -336,9 +336,9 @@ router.post(
 			axios
 				.post(
 					apiPost +
-						'/newPost/' +
-						'?token=' +
-						req.session.passport.user.token,
+					'/newPost/' +
+					'?token=' +
+					req.session.passport.user.token,
 					{
 						author: req.session.passport.user._id,
 						content: req.body.content,

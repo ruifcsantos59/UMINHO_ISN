@@ -5,7 +5,18 @@ var passport = require('passport');
 var User = require('../Controllers/UserController');
 var Post = require('../Controllers/PublicationController');
 
-/* POST new Post */
+router.get(
+	'/feed/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Post.feed(req.params.id)
+			.then(posts => {
+				res.jsonp(posts)
+			})
+			.catch(error => res.status(500).jsonp(error));
+	}
+);
+
 router.post(
 	'/newPost',
 	passport.authenticate('jwt', { session: false }),
