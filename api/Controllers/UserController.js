@@ -72,4 +72,8 @@ module.exports.addFriend = (email, friendID) => {
 
 module.exports.addFriendPerId = (id, friendID) => {
 	return User.findOneAndUpdate({_id: id}, {$push: {friends: friendID}}).exec();
+};
+
+module.exports.verifyFriend = (email, userID) => {
+	return User.find({_id: id, friends: userID}).exec();
 }

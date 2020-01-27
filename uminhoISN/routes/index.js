@@ -321,6 +321,13 @@ router.post(
 				arrayFiles.push(newFile);
 			}
 
+			let isPrivate = false;
+			if (req.body.isPrivate === 'true') {
+				isPrivate = true;
+			} else {
+				isPrivate = false;
+			}
+
 			let date = new Date();
 			axios
 				.post(
@@ -337,7 +344,7 @@ router.post(
 						}),
 						hasGroup: false,
 						emailOfAuthor: req.session.passport.user.email,
-						isPrivate: true
+						isPrivate: isPrivate
 					}
 				)
 				.then(dados => {
@@ -346,6 +353,13 @@ router.post(
 				.catch(e => console.log(e));
 		} else {
 			let date = new Date();
+
+			let isPrivate = false;
+			if (req.body.isPrivate === 'true') {
+				isPrivate = true;
+			} else {
+				isPrivate = false;
+			}
 
 			axios
 				.post(
@@ -361,7 +375,7 @@ router.post(
 						}),
 						hasGroup: true,
 						emailOfAuthor: req.session.passport.user.email,
-						isPrivate: true
+						isPrivate: isPrivate
 					}
 				)
 				.then(dados => {
