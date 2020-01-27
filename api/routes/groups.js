@@ -6,6 +6,8 @@ var User = require('../Controllers/UserController');
 var Post = require('../Controllers/PublicationController');
 var Group = require('../Controllers/GroupController');
 
+
+
 /* GET All groups */
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     Group.groups()
@@ -15,6 +17,12 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 
 router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     Group.consultGroup(req.params.id)
+        .then(group => res.jsonp(group))
+        .catch(error => res.status(500).jsonp(error));
+})
+
+router.get('/addMember/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Group.addMember(req.params.id, req.query.userid)
         .then(group => res.jsonp(group))
         .catch(error => res.status(500).jsonp(error));
 })

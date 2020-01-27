@@ -11,6 +11,13 @@ module.exports.addPost = (id, postID) => {
 	).exec();
 };
 
+module.exports.addMember = (id, memberID) => {
+    return Group.findOneAndUpdate(
+        {_id: id},
+        {$push: {members: memberID}}
+    ).exec();
+}
+
 module.exports.consultGroup = id => {
 	return Group.findOne({ _id: id })
 		.populate({
