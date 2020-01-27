@@ -6,6 +6,7 @@ module.exports.feed = (id) => {
             path: 'author',
             model: 'User'
         })
+        .sort({dateOfCreation: -1})
         .exec();
 }
 

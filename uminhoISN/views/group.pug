@@ -1,20 +1,39 @@
 extends layout
 
 block content
-    each g in dados 
-        h3 #{g.name}
-        p #{g.description}
-        p Criado por: #{g.createdBy.firstName} #{g.createdBy.lastName}
-        .container
-            form(action="/newPostInGroup?groupid=" + g._id method="POST" enctype="multipart/form-data")
-                .container(id="lista")
-                    .container(id="f1")
-                    div.form-group
-                        input(type="text" class="form-control" name="content" placeholder="Adiciona algo a este grupo :D")
-                    div.form-gorup
-                        label Ficheiro
-                        input(type="file" class="form-control-file" name="file")
+    div.m-5.bg-light.shadow.p-3.mb-5.rounded
+        form(action="/newPostInGroup?groupid=" + dados._id method="POST" enctype="multipart/form-data")
+            .container(id="lista")
+                .container(id="f1")
+                div.form-group.pt-5
+                    input(type="text" class="form-control" name="content" placeholder="Adiciona algo a este grupo :D")
                 div
-                    button.btn.btn-primary(type="button" id='mais1') Adicionar mais ficheiros 
-                input(type="submit" class="btn btn-primary" value="Publicar")
+                    label Ficheiro: &nbsp 
+                    input(type="file" name="file")
+            .container
+                .row
+                    .col
+                        button.btn.btn-secondary(type="button" id='mais1') +Ficheiros
+                .row.m-5.pb-3.d-flex.justify-content-center
+                    .col-md-2
+                        input(type="submit" class="btn btn-primary" value="Publicar")
+    .container
+        each p in dados.posts
+            div.alert.alert-secondary.shadow.p-3.mb-5.bg-white.rounded
+                .container
+                    .row
+                        .col-sm-2
+                            label.font-weight-bold Publicado por: 
+                        .col
+                            a(href='/users/' + p.emailOfAuthor) #{p.emailOfAuthor}
+                    p #{p.content}
 
+                table.table.table-hover.table-borderless
+                    tr
+                        th Ficheiro
+                        th 
+                            each f in p.files
+                                tr
+                                    td= f.name
+                                    td
+                                        a(href="/download/" + f.name) Download

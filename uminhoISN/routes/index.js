@@ -299,7 +299,7 @@ router.post(
 	upload.array('file'),
 	verificaAutenticacao,
 	(req, res) => {
-		if (req.files) {
+		if (req.files.length > 0) {
 			let arrayFiles = [];
 
 			for (let index = 0; index < req.files.length; index++) {
@@ -322,7 +322,7 @@ router.post(
 			}
 
 			let isPrivate = false;
-			if (req.body.isPrivate === 'true') {
+			if (req.body.isPrivate === 'True') {
 				isPrivate = true;
 			} else {
 				isPrivate = false;
@@ -355,7 +355,8 @@ router.post(
 			let date = new Date();
 
 			let isPrivate = false;
-			if (req.body.isPrivate === 'true') {
+
+			if (req.body.isPrivate === 'True') {
 				isPrivate = true;
 			} else {
 				isPrivate = false;
@@ -373,7 +374,7 @@ router.post(
 						dateOfCreation: date.toLocaleString('en-GB', {
 							timeZone: 'UTC'
 						}),
-						hasGroup: true,
+						hasGroup: false,
 						emailOfAuthor: req.session.passport.user.email,
 						isPrivate: isPrivate
 					}

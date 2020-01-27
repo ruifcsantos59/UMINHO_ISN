@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title UMINHO-ISN
+    title UMinhoISN
     link(rel='stylesheet', href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
     link(rel="stylesheet", href="/stylesheets/style.css")
     link(rel="stylesheet", href="/stylesheets/jquery.modal.min.css")
@@ -11,7 +11,7 @@ html
     script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous")
   body
     nav.navbar.navbar-dark.bg-primary
-        a.navbar-brand(href='/feed') UMINHO-ISN
+        a.navbar-brand(href='/feed') UMinhoISN
         form.form-inline.my-2.my-lg-0(action="/findUsers" method="POST")
             input.form-control.mr-sm-2(type='search', placeholder='Search', aria-label='Search' name="name")
             button.btn.btn-light.my-2.my-sm-0(type='submit') Pesquisar
@@ -20,10 +20,6 @@ html
           a(href="/signout") Logout
         li
           a(href="/myProfile") Meu Perfil
-        li
-          a(href="/myMessages") Minhas Mensagens
-        li
-          a(href="/friendRequests") Pedidos de Amizade
         li
           a(href="/groups") Grupos
     block content
