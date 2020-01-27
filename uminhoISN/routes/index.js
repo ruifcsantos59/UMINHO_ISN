@@ -129,12 +129,9 @@ router.get('/groups', verificaAutenticacao, (req, res) => {
 				req.session.passport.user.token
 		)
 		.then(myGroups => {
-			console.log(myGroups.data);
 			axios
 				.get(apiGroup + '/?token=' + req.session.passport.user.token)
 				.then(groups => {
-					console.log(myGroups.data);
-					console.log(groups.data);
 					res.render('groups', {
 						myGroups: myGroups.data,
 						groups: groups.data

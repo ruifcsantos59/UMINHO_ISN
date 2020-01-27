@@ -5,4 +5,16 @@ block content
         h3 #{g.name}
         p #{g.description}
         p Criado por: #{g.createdBy.firstName} #{g.createdBy.lastName}
+        .container
+            form(action="/newPost" method="POST" enctype="multipart/form-data")
+                .container(id="lista")
+                    .container(id="f1")
+                    div.form-group
+                        input(type="text" class="form-control" name="content" placeholder="Adiciona algo a este grupo :D")
+                    div.form-gorup
+                        label Ficheiro
+                        input(type="file" class="form-control-file" name="file")
+                div
+                    button.btn.btn-primary(type="button" id='mais1') Adicionar mais ficheiros 
+                input(type="submit" class="btn btn-primary" value="Publicar")
 

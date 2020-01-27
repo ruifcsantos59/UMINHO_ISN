@@ -37,6 +37,9 @@ router.get(
 	function(req, res) {
 		User.addFriend(req.params.email, req.query.friend)
 			.then(user => {
+				User.addFriendPerId(req.query.friend, user._id)
+					.then(u => {res.jsonp(user)})
+					.catch(e => res.status(500).jsonp(e));
 				res.jsonp(user);
 			})
 			.catch(e => res.status(500).jsonp(e));

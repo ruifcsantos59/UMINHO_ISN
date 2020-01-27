@@ -69,3 +69,7 @@ module.exports.addFriend = (email, friendID) => {
 		{ $push: { friends: friendID } }
 	).exec();
 };
+
+module.exports.addFriendPerId = (id, friendID) => {
+	return User.findOneAndUpdate({_id: id}, {$push: {friends: friendID}}).exec();
+}

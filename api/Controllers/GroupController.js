@@ -8,7 +8,8 @@ module.exports.consultGroup = id => {
     return Group.find({_id: id})
     .populate({
         path: 'createdBy',
-        model: 'User'
+        model: 'User',
+        select: 'firstName , lastName' 
     }).exec();
 }
 
