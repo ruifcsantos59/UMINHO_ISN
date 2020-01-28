@@ -120,6 +120,10 @@ router.get('/groups/:id', verificaAutenticacao, (req, res) => {
 });
 
 router.get('/groups', verificaAutenticacao, (req, res) => {
+	res.render('groups');
+});
+
+router.get('/mygroups', verificaAutenticacao, (req, res) => {
 	axios
 		.get(
 			apiUser +
@@ -129,21 +133,24 @@ router.get('/groups', verificaAutenticacao, (req, res) => {
 				req.session.passport.user.token
 		)
 		.then(myGroups => {
-			axios
-				.get(apiGroup + '/?token=' + req.session.passport.user.token)
-				.then(groups => {
-					res.render('groups', {
-						myGroups: myGroups.data,
-						groups: groups.data
-					});
-				})
-				.catch(e => res.write('Welcome to our API'));
+			res.render('myGroups', { myGroups: myGroups.data });
 		})
-		.catch(e => res.write('Welcome to our API'));
+		.catch();
+});
+
+router.get('/allgroups', verificaAutenticacao, (req, res) => {
+	axios
+		.get(apiGroup + '/?token=' + req.session.passport.user.token)
+		.then(groups => {
+			res.render('allGroups', {
+				groups: groups.data
+			});
+		})
+		.catch();
 });
 
 router.get('/joinGroup/:id', verificaAutenticacao, (req, res) => {
-	console.log(req.params.id)
+	console.log(req.params.id);
 
 	axios
 		.get(
@@ -156,7 +163,7 @@ router.get('/joinGroup/:id', verificaAutenticacao, (req, res) => {
 				req.session.passport.user._id
 		)
 		.then(myGroups => {
-			res.redirect('/groups')
+			res.redirect('/groups');
 		})
 		.catch(e => res.write('Welcome to our API'));
 });
@@ -447,14 +454,16 @@ router.post(
 						author: req.session.passport.user._id,
 						content: req.body.content,
 						files: arrayFiles,
-						dateOfCreation: date.toISOString(),
+						dateOfCreation: date.toLocaleString('en-GB', {
+							timeZone: 'UTC'
+						}),
 						hasGroup: true,
 						emailOfAuthor: req.session.passport.user.email,
 						isPrivate: false
 					}
 				)
 				.then(dados => {
-					res.redirect('/feed');
+					res.redirect('/mygroups');
 				})
 				.catch(e => console.log(e));
 		} else {
@@ -471,14 +480,16 @@ router.post(
 					{
 						author: req.session.passport.user._id,
 						content: req.body.content,
-						dateOfCreation: date.toISOString(),
+						dateOfCreation: date.toLocaleString('en-GB', {
+							timeZone: 'UTC'
+						}),
 						hasGroup: true,
 						emailOfAuthor: req.session.passport.user.email,
 						isPrivate: false
 					}
 				)
 				.then(dados => {
-					res.redirect('/feed');
+					res.redirect('/mygroups/');
 				})
 				.catch(e => console.log(e));
 		}

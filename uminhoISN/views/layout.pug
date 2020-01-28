@@ -15,11 +15,19 @@ html
         form.form-inline.my-2.my-lg-0(action="/findUsers" method="POST")
             input.form-control.mr-sm-2(type='search', placeholder='Search', aria-label='Search' name="name")
             button.btn.btn-light.my-2.my-sm-0(type='submit') Pesquisar
-    ul
-        li
-          a(href="/signout") Logout
-        li
-          a(href="/myProfile") Meu Perfil
-        li
-          a(href="/groups") Grupos
+    nav.navbar.navbar-expand-sm.nav-pills.nav-fill.bg-light.shadow.p-2.mb-5.rounded
+      div.collapse.navbar-collapse(id="navbarNavDropdown").justify-content-center
+        ul.nav
+          li.nav-item 
+            a.nav-link(href="/feed") Início
+          li.nav-item
+            a.nav-link(href="/myProfile") Meu Perfil
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(href="/#" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Grupos
+            div.dropdown-menu(aria-labelledby="navbarDropdown")
+              a.dropdown-item(href="/groups") Criar
+              a.dropdown-item(href="/mygroups") Meus
+              a.dropdown-item(href="/allgroups") Todos
+          li.nav-item
+            a.nav-link(href="/signout") Logout
     block content

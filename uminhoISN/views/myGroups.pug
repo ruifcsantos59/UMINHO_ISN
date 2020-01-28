@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    div.mt-5.mb-3
+        h2.text-center.mb-4 Os meus grupos
+        if myGroups <= 0
+            p Ainda não pertence a nenhum grupo!
+        else
+            div.d-flex.justify-content-center.text-center
+                each myGroup in myGroups.groups
+                    .card.shadow.bg-white.rounded.w-25
+                        div.p-4.pt-5
+                            h5 #{myGroup.name}
+                            p  #{myGroup.description}
+                        div.card-footer.text-center
+                            a(href='/groups/' + myGroup._id) Ver grupo

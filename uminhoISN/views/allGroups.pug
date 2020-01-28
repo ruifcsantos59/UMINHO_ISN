@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    div.mt-5.mb-3
+        h2.text-center.mb-4 Todos os grupos
+        if groups <= 0
+            p Ainda não existem grupos criados!
+        else
+            div.d-flex.justify-content-center.text-center
+                each group in groups
+                    .card.shadow.bg-white.rounded.w-25
+                        div.p-4.pt-5
+                            h5 #{group.name}
+                            p  #{group.description}
+                        div.card-footer.text-center
+                            a(href='/joinGroup/' + group._id) Juntar-se ao grupo

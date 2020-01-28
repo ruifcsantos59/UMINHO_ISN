@@ -40,7 +40,6 @@ router.get(
 				User.addFriendPerId(req.query.friend, user._id)
 					.then(u => {res.jsonp(user)})
 					.catch(e => res.status(500).jsonp(e));
-				res.jsonp(user);
 			})
 			.catch(e => res.status(500).jsonp(e));
 	}

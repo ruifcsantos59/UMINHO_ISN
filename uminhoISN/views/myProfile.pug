@@ -1,30 +1,69 @@
 extends layout
 
 block content
-  img(src='/files/' + dados.photo alt='foto_perfil' style='width:80%')
-  p Nome: #{dados.firstName} #{dados.lastName}
-  p Numero de Telemovel: #{dados.phone}
-  p Email: #{dados.email}
-  p Data de Nascimento: #{dados.dateOfBirth}
-  p Género: #{dados.gender}
-  if dados.description
-    p Descrição: #{dados.description}
-  a(href="/editProfile") Editar perfil
-  br
-  br
-  h2 Publicações
-  if dados.posts <= 0
-    p Ainda não existem publicações
-  else
-    each post in dados.posts
-      hr
-      p Contéudo: #{post.content}
-      p Data de publicação: #{post.dateOfCreation}
-      hr
-  h2 Meus Amigos
-  if dados.friends <= 0
-    p Ainda não tem amigos adicionados
-  else
-    each f in dados.friends
-      p Nome: #{f.firstName} #{f.lastName}
-      a(href='/users/' + f.email) Ver perfil
+  div.m-5
+    .row.align-items-center
+      .col-2
+        img.rounded-circle.float-left.img-thumbnail.mb-3.ml-2(src='/files/' + dados.photo alt='foto_perfil' style='height:250px')
+        h4.font-weight-bold.text-center #{dados.firstName} #{dados.lastName}
+        if dados.description
+          h6.font-italic.text-center #{dados.description}
+      .col-6
+        div.float-right.card-body.border.mb-3.shadow-sm
+          .row
+            .col.text-center
+              p.font-weight-bold Contacto
+              p #{dados.phone}
+            .col.text-center
+              p.font-weight-bold Email 
+              p #{dados.email}
+            .col.text-center
+              p.font-weight-bold Nascimento
+              p #{dados.dateOfBirth}
+            .col.text-center
+              p.font-weight-bold Género
+              p #{dados.gender}
+          .row
+            .container.text-center
+              a(href="/editProfile") Editar perfil
+    div.mt-5.mb-3
+      h2.text-center.mb-4 Meus Amigos
+      if dados.friends <= 0
+        p Ainda não tem amigos adicionados
+      else
+        div.d-flex.justify-content-center.text-center
+          each f in dados.friends
+            .card.shadow.bg-white.rounded.w-25
+              div.p-4.pt-5
+                h5 #{f.firstName} #{f.lastName}
+                p  #{f.email}
+              div.card-footer.text-center
+                a(href='/users/' + f.email) Ver perfil
+    div
+      h2.text-center.mt-4 Publicações
+      if dados.posts <= 0
+        p Ainda não existem publicações
+      else
+        .container
+          each post in dados.posts
+            div.alert.alert-secondary.shadow.p-3.mb-5.bg-white.rounded
+              .container
+                .row
+                  .col-sm-2
+                    label.font-weight-bold Publicado por: 
+                  .col
+                    a(href='/users/' + post.emailOfAuthor) #{post.emailOfAuthor}
+                  .col-sm-2
+                    small #{post.dateOfCreation}
+                p #{post.content}
+          
+                if post.files.length > 0
+                    table.table.table-hover.table-bordered
+                      tr
+                        th Ficheiro
+                        th 
+                          each f in post.files
+                            tr
+                              td= f.name
+                              td
+                                a(href="/download/" + f.name) Download

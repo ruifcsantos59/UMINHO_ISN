@@ -1,11 +1,15 @@
 extends layout
 
 block content
-    h3 Pessoas Encontradas
+    h2.text-center.mb-4 Pessoas Encontradas
     if dados <= 0
         p Não foram encontrados utilizadores
     else
-        each u in dados
-            p Nome: #{u.firstName} #{u.lastName}
-            p Email: #{u.email}
-            a(href='/addFriend/' + u._id) Adicionar amigo
+        div.d-flex.justify-content-center.text-center
+            each u in dados
+                .card.shadow.bg-white.rounded.w-25
+                    div.p-4.pt-5
+                        h5 #{u.firstName} #{u.lastName}
+                        p #{u.email}
+                    div.card-footer.text-center
+                        a(href='/addFriend/' + u._id) Adicionar amigo

@@ -1,42 +1,26 @@
 extends layout
 
 block content
-    h3 Criar Novo Grupo
-    .container
+    h2.text-center.mb-4 Criar Novo Grupo
+    div.m-5.bg-light.shadow.p-3.mb-5.rounded
       form(action="/newGroup" method="POST" enctype="multipart/form-data")
         div.form-group
           input(type="text" class="form-control" name="name" placeholder="Nome do Grupo")
         div.form-group
           input(type="text" class="form-control" name="description" placeholder="Descrição")
-        div.form-group
-          label É privado?  
-          div(class="form-check form-check-inline")
-            input(type="radio" class="form-check-input" name="isPrivate" value="True")
-            label(class="form-check-label" for="inlineRadio1") Sim
-          div(class="form-check form-check-inline")
-            input(type="radio" class="form-check-input" name="isPrivate" value="False")
-            label(class="form-check-label" for="inlineRadio1") Não
-        div.form-gorup
-            label Foto do Grupo
-            input(type="file" class="form-control-file" name="photo")
-        br
-        button(type="submit" class="btn btn-primary") Criar Grupo
-    br
-    h3 Os meus grupos
-    if myGroups <= 0
-        p Ainda não pertence a nenhum grupo!
-    else 
-        each myGroup in myGroups.groups
-            p Nome: #{myGroup.name}
-            p Descrição: #{myGroup.description}
-            a(href='/groups/' + myGroup._id) Ver grupo
-    h3 Todos os Grupos
-    if groups <= 0
-        p Ainda não existem grupos criados!
-    else 
-        each group in groups
-            p Nome: #{group.name}
-            p Descrição: #{group.description}
-            a(href='/joinGroup/' + group._id) Juntar-se ao grupo
-    
-    
+        .row
+          .col
+            div
+              label É privado?  
+              div(class="form-check form-check-inline")
+                input(type="radio" class="form-check-input" name="isPrivate" value="True")
+                label(class="form-check-label" for="inlineRadio1") Sim
+              div(class="form-check form-check-inline")
+                input(type="radio" class="form-check-input" name="isPrivate" value="False")
+                label(class="form-check-label" for="inlineRadio1") Não
+          .col-3
+            div
+              label Foto do Grupo
+              input(type="file" class="form-control-file" name="photo")
+        .row.m-5.pb-3.d-flex.justify-content-center
+          button.center(type="submit" class="btn btn-primary") Criar Grupo
