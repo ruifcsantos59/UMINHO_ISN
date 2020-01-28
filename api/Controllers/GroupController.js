@@ -1,7 +1,7 @@
 var Group = require('../Models/Group');
 
 module.exports.groups = () => {
-	return Group.find({}, { name: 1, description: 1 }).exec();
+	return Group.find({isPrivate: false}, { name: 1, description: 1 }).exec();
 };
 
 module.exports.addPost = (id, postID) => {

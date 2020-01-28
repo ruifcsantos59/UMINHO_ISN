@@ -18,6 +18,16 @@ block content
                     .col-md-2
                         input(type="submit" class="btn btn-primary" value="Publicar")
     .container
+        h3 Adicionar membros ao grupo
+        div.m-5.bg-light.shadow.p-1.mb-5.rounded
+            form(action="/addMemberInGroup?groupid=" + dados._id method="POST")
+                .container
+                    .row.m-5.pb-1.d-flex.justify-content-center
+                        .col
+                            input(type="email" class="form-control" name="email" placeholder="Email do Utilizador")
+                        .col-md-2
+                            input(type="submit" class="btn btn-primary" value="Adicionar")
+    .container
         each p in dados.posts
             div.alert.alert-secondary.shadow.p-3.mb-5.bg-white.rounded
                 .container

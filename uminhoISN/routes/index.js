@@ -496,6 +496,21 @@ router.post(
 	}
 );
 
+router.post('/addMemberInGroup', (req, res)=> {
+	console.log(req);
+	axios.get(apiGroup + '/addMemberPerEmail/' +
+		req.query.groupid + 
+		'/?token=' +
+		req.session.passport.user.token + 
+		'&email=' +
+		req.body.email
+		)
+		.then(
+			res.redirect('/mygroups')
+		)
+		.catch(e => console.log(e));
+})
+
 router.get('/download/:fname', function(req, res) {
 	res.download(__dirname + '/../public/files/' + req.params.fname);
 });

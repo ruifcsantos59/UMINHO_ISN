@@ -29,7 +29,24 @@ router.get('/addMember/:id', passport.authenticate('jwt', {session: false}), (re
                 .catch(error => res.status(500).jsonp(error));
         })
         .catch(error => res.status(500).jsonp(error));
-})
+});
+
+router.get('/addMemberPerEmail/:id', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    console.log(req.query);
+    User.userLogin(req.query.email)
+        .then(user => {
+            console.log(user);
+            Group.addMember(req.params.id, user._id)
+                .then(group => {
+                    console.log(group)
+                    User.addGroup(user._id, group._id)
+                    .then(u => res.jsonp(group))
+                    .catch(error => res.status(500).jsonp(error));
+                })
+                .catch(error => res.status(500).jsonp(error));
+        })
+        .catch(error => res.status(500).jsonp(error));
+});
 
 
 /* POST new Post */
